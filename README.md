@@ -183,10 +183,11 @@ error 任意 ──错误──> error 0/3
 
 - 来源：[rime/rime-wubi](https://github.com/rime/rime-wubi) 的 86 版五笔码表，
   由极点五笔码表转换，含 Google 字频。
+- 上游许可证：**LGPL-3.0**（见该仓库 `LICENSE`）。
 - 本项目生成的文件：`data/chars.json`、`data/words.json`、`data/pools.json`。
 - 原始码表参考：`_ref/wubi86.dict.yaml`（仅构建参考，运行时不读取）。
 - 字根表/口诀：86 版五笔传统字根口诀，整理在 `tools/build_data.py`，生成 `data/keys86.json`。
-- 使用/再分发前请核对上游仓库的许可证。
+- 使用/再分发前请保留上游署名与许可证，并核对 LGPL-3.0 对数据再分发的要求。
 
 ### 逐字拆字数据与字根字体
 
@@ -209,10 +210,19 @@ error 任意 ──错误──> error 0/3
 据 `hantang/search-wubi` 的 README，其字根拆解和对应字体来自 **86wb.ysepan.com**。
 本项目只是本地使用这些数据/字体，不修改原始授权。
 
+**许可核查（2026-11-23）**：
+
+- `hantang/search-wubi` 的 GitHub API `license` 字段为空，`/license` 返回 404，仓库根目录没有 `LICENSE` 文件；
+- 该仓库 README 只标注“字根拆解和对应字体来自 86wb.ysepan.com”，没有给出再分发许可；
+- `86wb.ysepan.com` 的公开页面是文件空间入口，未看到明确的开源/再分发许可证；
+- 因此：**署名和引用不等于获得再分发许可**。在取得 hantang/search-wubi 或上游权利人的明确许可前，不要把 `data/char_roots.json` 和 `web/fonts/wubi-roots.ttf` 提交到公开仓库。
+
 > **许可证提醒**：本机这份 `search-wubi-main` 副本中**没有看到 LICENSE 文件**。
 > 如果要把 `data/char_roots.json` 和 `web/fonts/wubi-roots.ttf` 一起公开上传到 GitHub，
 > 请先确认 hantang/search-wubi 及上游 86wb.ysepan.com 的再分发许可；未确认前建议不要公开提交这两个文件。
 > 删除它们后程序仍可运行，拆字提示会降级为“码位键位字根”。
+
+完整第三方组件、字体和数据许可清单见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
 ### 运行时不需要源仓库
 
@@ -409,6 +419,61 @@ search-wubi-main.zip
 - 不支持移动端软键盘；文章练习依赖实体键盘。
 - 没有账号同步；换电脑需手动复制 `data/progress.db`。
 - 服务只适合本机使用，不要直接暴露到公网。
+
+## 引用与参考
+
+### 本项目
+
+- 项目地址：<https://github.com/weijintao2005/wubi-typing-trainer>
+- 代码许可证：Apache-2.0（以仓库根目录 `LICENSE` 为准）
+- 第三方组件、字体与数据的完整许可说明：[THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)
+- 如需在文档中引用：
+
+  ```text
+  weijintao2005. 五笔练习（wubi-typing-trainer）. GitHub, 2026.
+  https://github.com/weijintao2005/wubi-typing-trainer
+  ```
+
+### 字根拆解与字根字体
+
+1. **hantang/search-wubi**
+   - 地址：<https://github.com/hantang/search-wubi>
+   - 本项目使用：`data/data-wubi-v86.tsv`、`data/data-chars.tsv`、`docs/static/font/黑体字根.ttf`
+   - 用途：逐字拆解、识别码 `flag`、笔画段、PUA 字根字形
+   - 许可证状态：**未声明**。截至 2026-11-23，GitHub API `license` 为空，仓库无 `LICENSE` 文件
+   - 该仓库 README 的 `数据相关` 一节写明“字根拆解和对应字体来自 86wb.ysepan.com”
+
+2. **86wb.ysepan.com（五笔输入法 86 版）**
+   - 地址：<https://86wb.ysepan.com>
+   - 用途：hantang/search-wubi 标注的字根拆解与字体上游
+   - 许可证状态：公开入口页未提供明确的开源/再分发许可
+   - **注意：以上引用只用于归属说明，不构成再分发授权。**
+
+### 编码、词频与字库
+
+3. **rime/rime-wubi**
+   - 地址：<https://github.com/rime/rime-wubi>
+   - 用途：`data/chars.json`、`data/words.json`、`data/pools.json`、`_ref/wubi86.dict.yaml`
+   - 许可证：**LGPL-3.0**
+
+4. **KyleBing/rime-wubi86-jidian**
+   - 地址：<https://github.com/KyleBing/rime-wubi86-jidian>
+   - 用途：hantang/search-wubi README 列出的五笔编码参考方案之一
+   - 许可证：MIT
+
+5. **CNMan/UnicodeCJK-WuBi**
+   - 地址：<https://github.com/CNMan/UnicodeCJK-WuBi>
+   - 用途：hantang/search-wubi README 列出的五笔编码参考方案之一
+   - 许可证状态：未声明；仅作为上游方案引用，不随本项目分发其数据
+
+### 其他
+
+6. **python-docx**
+   - 地址：<https://python-docx.readthedocs.io/>
+   - 用途：docx 解析
+   - 许可证：MIT
+
+> 引用与许可证核查截至 **2026-11-23**。如果上游之后补充了 LICENSE，请以上游最新文件为准。
 
 ## 致谢
 

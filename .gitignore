@@ -2,16 +2,18 @@ __pycache__/
 *.py[cod]
 *.log
 
+# 个人运行数据
 data/progress.db
 data/progress.db-wal
 data/progress.db-shm
 data/progress.db.bak-*
 data/article_media/
 
+# 第三方源仓库 / 原始码表（体积大，运行时不使用）
 _ref/
 search-wubi-main/
 search-wubi-main.zip
 
-# 字根数据/字体：许可未确认前不提交
+# 字根数据 / 字体：许可未确认前不提交
 data/char_roots.json
 web/fonts/wubi-roots.ttf
