@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>五笔练习 · 86 版看图拆字</title>
+<meta name="description" content="本地五笔打字练习：看图拆字、字根口诀、词组练习、编码查询与练习统计。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='4' width='56' height='56' rx='14' fill='%2323201c'/%3E%3Ctext x='32' y='45' font-size='34' text-anchor='middle' fill='%23fff8ec' font-family='KaiTi,serif'%3E五%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#/five">
+    <span class="brand-key">五</span>
+    <span class="brand-text"><b>五笔练习</b><small>86 版 · 本地版</small></span>
+  </a>
+  <nav class="nav" id="nav">
+    <a href="#/five" data-nav="five">看图拆字</a>
+    <a href="#/roots" data-nav="roots">字根口诀</a>
+    <a href="#/words" data-nav="words">词组练习</a>
+    <a href="#/article" data-nav="article">文章练习</a>
+    <a href="#/dict" data-nav="dict">编码查询</a>
+    <a href="#/stats" data-nav="stats">练习统计</a>
+  </nav>
+  <div class="top-right">
+    <span class="today" id="todayChip" title="今日已练习字数">今日 0 字</span>
+    <button class="icon-btn" id="settingsBtn" title="设置" aria-label="设置">⚙</button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="view" id="view-five"></section>
+  <section class="view" id="view-words"></section>
+  <section class="view" id="view-article"></section>
+
+  <section class="view" id="view-roots">
+    <div class="page-head">
+      <h1>五笔字根口诀</h1>
+      <p>25 个键位、五个分区。点一个键看字根与口诀，也可以直接用键盘做键位反应练习。</p>
+    </div>
+    <div class="roots-layout">
+      <div class="card keyboard-card roots-kb-card">
+        <div class="kb-head">
+          <span>86 版字根表</span>
+          <span class="kb-legend" id="rootsLegend"></span>
+        </div>
+        <div id="kbRoots" class="kb kb--full"></div>
+      </div>
+      <aside class="card key-detail" id="keyDetail"></aside>
+    </div>
+    <div class="card drill-card">
+      <div class="drill-head">
+        <div>
+          <h2>键位反应练习</h2>
+          <p>看到口诀，按出它所在的键。练的是"口诀 → 键位"的条件反射。</p>
+        </div>
+        <div class="drill-actions">
+          <button class="btn primary" id="drillStart">开始练习</button>
+          <button class="btn ghost" id="drillStop" hidden>结束</button>
+        </div>
+      </div>
+      <div class="drill-body" id="drillBody" hidden>
+        <div class="drill-prompt" id="drillPrompt">王旁青头戋（兼）五一</div>
+        <div class="drill-answer" id="drillAnswer">按对应的键</div>
+        <div class="drill-stats">
+          <span>正确 <b id="drillOk">0</b></span>
+          <span>错误 <b id="drillBad">0</b></span>
+          <span>正确率 <b id="drillAcc">100%</b></span>
+        </div>
+      </div>
+    </div>
+    <div class="card note-card">
+      <h2>末笔识别码</h2>
+      <p>不足四码的字，补一个"识别码"：<b>末笔笔画</b>（横 1、竖 2、撇 3、捺 4、折 5）定区，<b>字型</b>（左右 1、上下 2、杂合 3）定位。</p>
+      <div class="code-grid">
+        <div><span>末笔</span><b>横 一</b><i>1 区</i></div>
+        <div><span>末笔</span><b>竖 丨</b><i>2 区</i></div>
+        <div><span>末笔</span><b>撇 丿</b><i>3 区</i></div>
+        <div><span>末笔</span><b>捺 丶</b><i>4 区</i></div>
+        <div><span>末笔</span><b>折 乙</b><i>5 区</i></div>
+      </div>
+      <p class="muted">例：汉 = 氵 + 又 + 识别码（末笔捺、左右型 → 4 区 1 位 → Y），全码 icy。</p>
+    </div>
+  </section>
+
+  <section class="view" id="view-dict">
+    <div class="page-head">
+      <h1>五笔编码查询</h1>
+      <p>输入汉字或词语查编码；输入字母（如 rqyy）反查同码的字词。</p>
+    </div>
+    <div class="card search-card">
+      <div class="search-box">
+        <input id="dictInput" type="text" placeholder="输入汉字、词语，或字母编码…" autocomplete="off" spellcheck="false">
+        <button class="btn primary" id="dictClear" title="清空">清空</button>
+      </div>
+      <div class="quick" id="dictQuick"></div>
+    </div>
+    <div id="dictResults" class="dict-results"></div>
+  </section>
+
+  <section class="view" id="view-stats">
+    <div class="page-head">
+      <h1>练习统计</h1>
+      <p>数据存在本机 <code>data/progress.db</code>，不上传任何地方。</p>
+    </div>
+    <div class="stat-cards" id="statCards"></div>
+    <div class="stat-cards learning-cards" id="learningCards"></div>
+    <div class="card learning-card">
+      <div class="card-head"><h2>各科学习进度</h2><span class="muted">新 / 错 / 低频 / 已掌握</span></div>
+      <div id="poolProgress" class="pool-progress-table"></div>
+    </div>
+    <div class="stats-grid">
+      <div class="card">
+        <div class="card-head"><h2>最近练习</h2></div>
+        <div id="recentList" class="recent-list"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2>错题本</h2><div class="card-tools"><span class="muted" id="errCount"></span><button class="btn ghost" id="practiceErrors" hidden>练一遍</button></div></div>
+        <div id="errorList" class="error-list"></div>
+        <p class="err-note">错题在本科目连续 3 次全对后掌握；在错题本练习会回写所有来源科目。初学模式不计。</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>五笔练习 · 本地运行，数据只保存在本机</span>
+  <span>码表：Rime 五笔86（<a href="https://github.com/rime/rime-wubi" target="_blank" rel="noopener">rime-wubi</a>）</span>
+</footer>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<div class="modal-mask" id="modalMask" hidden>
+  <div class="modal-card" id="modalCard" role="dialog" aria-modal="true"></div>
+</div>
+
+<div class="popover" id="settingsPanel" hidden>
+  <h3>设置</h3>
+  <div class="field">
+    <span>每轮字数</span>
+    <div class="seg" id="optRounds">
+      <button data-round="20">20</button><button data-round="50">50</button><button data-round="100">100</button>
+    </div>
+  </div>
+  <div class="field">
+    <span>编码模式</span>
+    <div class="seg" id="optMode">
+      <button data-mode="short">简码优先</button><button data-mode="full">全码</button>
+    </div>
+  </div>
+  <label class="field switch"><span>初学模式：始终显示提示</span><input type="checkbox" id="optHint"></label>
+  <label class="field switch"><span>按键音效</span><input type="checkbox" id="optSound"></label>
+  <div class="field"><span>学习进度</span><button class="btn ghost" id="resetAllLearning">重置全部</button></div>
+  <p class="hint-text">默认不显示编码提示。答错一次后按 <kbd>空格</kbd> 查看该码的键位与口诀，<kbd>Esc</kbd> 重新开始本轮。<br>简码优先：按最短编码输入（如「的」只要 <kbd>R</kbd>）。全码：输入完整四码（<kbd>RQYY</kbd>）。<br>重置只清空学习状态，不清空历史成绩。</p>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

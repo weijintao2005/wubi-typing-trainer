@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*.log
+
+data/progress.db
+data/progress.db-wal
+data/progress.db-shm
+data/progress.db.bak-*
+data/article_media/
+
+_ref/
+search-wubi-main/
+search-wubi-main.zip
+
+# 字根数据/字体：许可未确认前不提交
+data/char_roots.json
+web/fonts/wubi-roots.ttf
